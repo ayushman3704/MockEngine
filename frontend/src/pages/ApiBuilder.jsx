@@ -120,7 +120,8 @@ const ApiBuilder = () => {
         config: {
           itemCount: Number(itemCount),
           delay: Number(delay),
-          forceError
+          forceError,
+          errorCode: Number(errorCode)
         }
       };
 
@@ -137,7 +138,13 @@ const ApiBuilder = () => {
       } else {
         // ➕ CREATE LOGIC (POST Request - Jo aapka pehle se tha)
         // Apne purane payload structure ke hisaab se bhejein
-        const createPayload = { ...payload, itemCount: payload.config.itemCount, delay: payload.config.delay, forceError: payload.config.forceError };
+        const createPayload = {
+          ...payload,
+          itemCount: payload.config.itemCount,
+          delay: payload.config.delay,
+          forceError: payload.config.forceError,
+          errorCode: payload.config.errorCode
+        };
         
         await axiosInstance.post(`/projects/${projectId}/endpoints`, createPayload);
         setPath('');
@@ -182,6 +189,7 @@ const ApiBuilder = () => {
     setItemCount(endpoint.config.itemCount || 10);
     setDelay(endpoint.config.delay || 0);
     setForceError(endpoint.config.forceError || false);
+    setErrorCode(endpoint.config.errorCode || 500);
     
     // Map fields specifically to ensure they match our UI state format
     const mappedFields = endpoint.fields.map(f => ({
@@ -202,6 +210,7 @@ const ApiBuilder = () => {
     setItemCount(10);
     setDelay(0);
     setForceError(false);
+    setErrorCode(500);
     setFields([{ fieldName: 'id', dataType: 'uuid' }]);
   };
 
@@ -320,7 +329,7 @@ const ApiBuilder = () => {
             </div>
 
             {/* Row 2: Advanced Configs */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-gray-50 p-4 rounded-lg border border-gray-100">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 bg-gray-50 p-4 rounded-lg border border-gray-100">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Array Size</label>
                 <input type="number" min="1" max="1000" value={itemCount} onChange={(e) => setItemCount(e.target.value)} className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
@@ -329,10 +338,29 @@ const ApiBuilder = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Simulate Delay (ms)</label>
                 <input type="number" min="0" value={delay} onChange={(e) => setDelay(e.target.value)} className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
               </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Error Code</label>
+                <select
+                  value={errorCode}
+                  onChange={(e) => setErrorCode(e.target.value)}
+                  disabled={!forceError}
+                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm disabled:bg-gray-100 disabled:text-gray-400"
+                >
+                  <option value={400}>400 Bad Request</option>
+                  <option value={401}>401 Unauthorized</option>
+                  <option value={403}>403 Forbidden</option>
+                  <option value={404}>404 Not Found</option>
+                  <option value={409}>409 Conflict</option>
+                  <option value={422}>422 Validation Error</option>
+                  <option value={500}>500 Server Error</option>
+                  <option value={502}>502 Bad Gateway</option>
+                  <option value={503}>503 Unavailable</option>
+                </select>
+              </div>
               <div className="flex items-center space-x-3 pt-6">
                 <input type="checkbox" id="forceError" checked={forceError} onChange={(e) => setForceError(e.target.checked)} className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
                 <label htmlFor="forceError" className="text-sm font-medium text-gray-700 flex items-center">
-                  <ServerCrash className="h-4 w-4 mr-1 text-red-500" /> Force Error (500)
+                  <ServerCrash className="h-4 w-4 mr-1 text-red-500" /> Force Error
                 </label>
               </div>
             </div>
