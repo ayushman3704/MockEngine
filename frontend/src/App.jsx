@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import ApiBuilder from './pages/ApiBuilder';
+import MockApiDemo from './pages/MockApiDemo';
 
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -30,6 +31,7 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} /> {/* 👈 Naya Route */}
+        <Route path="/demo" element={<MockApiDemo />} />
         
         <Route 
           path="/login" 

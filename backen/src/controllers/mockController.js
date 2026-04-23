@@ -59,8 +59,11 @@ exports.generateMockData = async (req, res) => {
 
     // 4️⃣ Feature Flag: Force Error
     if (endpoint.config.forceError) {
-      return res.status(500).json({
-        error: "Internal Server Error"
+      const errorCode = endpoint.config.errorCode || 500;
+
+      return res.status(errorCode).json({
+        success: false,
+        error: `Mock error response with status ${errorCode}`
       });
     }
 
@@ -78,7 +81,8 @@ exports.generateMockData = async (req, res) => {
       email: () => faker.internet.email(),
       number: () => faker.number.int(),
       date: () => faker.date.recent().toISOString(),
-      word: () => faker.lorem.word()
+      string: () => faker.lorem.word(),
+      boolean: () => faker.datatype.boolean()
     };
 
     // 7️⃣ Prevent Server Overload
@@ -96,7 +100,7 @@ exports.generateMockData = async (req, res) => {
 
         item[field.fieldName] = generator
           ? generator()
-          : faker.lorem.word();
+          : null;
       });
 
       result.push(item);

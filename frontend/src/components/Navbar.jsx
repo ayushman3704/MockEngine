@@ -30,6 +30,7 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             <Link to="/" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">Home</Link>
+            <Link to="/demo" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">Demo</Link>
             <a href="#features" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">Features</a>
             
             {isAuthenticated ? (
@@ -65,6 +66,7 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden bg-white border-b border-gray-100 px-4 pt-2 pb-4 space-y-2 shadow-lg animate-in slide-in-from-top-2">
           <Link to="/" onClick={() => setIsOpen(false)} className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Home</Link>
+          <Link to="/demo" onClick={() => setIsOpen(false)} className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Demo</Link>
           {isAuthenticated ? (
             <>
               <Link to="/dashboard" onClick={() => setIsOpen(false)} className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md">Dashboard</Link>

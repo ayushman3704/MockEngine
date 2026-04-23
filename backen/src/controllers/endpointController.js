@@ -17,11 +17,13 @@ const ALLOWED_DATA_TYPES = [
 // Security: Regular expressions for strict validation
 const PATH_REGEX = /^\/[a-zA-Z0-9_\-\/]+$/; 
 const FIELD_NAME_REGEX = /^[a-zA-Z0-9_]+$/;
+const MIN_ERROR_CODE = 400;
+const MAX_ERROR_CODE = 599;
 
 exports.createEndpoint = async (req, res) => {
   try {
     const { projectId } = req.params;
-    const { path, itemCount, delay, forceError, fields } = req.body;
+    const { path, itemCount, delay, forceError, errorCode, fields } = req.body;
     const userId = req.user.id; // coming from auth middleware
 
     // -----------------------------
@@ -135,6 +137,14 @@ exports.createEndpoint = async (req, res) => {
       });
     }
 
+    const parsedErrorCode = Number(errorCode) || 500;
+
+    if (parsedErrorCode < MIN_ERROR_CODE || parsedErrorCode > MAX_ERROR_CODE) {
+      return res.status(400).json({
+        message: "errorCode must be between 400 and 599"
+      });
+    }
+
     // -----------------------------
     // 7️⃣ Create endpoint
     // -----------------------------
@@ -145,7 +155,8 @@ exports.createEndpoint = async (req, res) => {
       config: {
         itemCount: parsedItemCount,
         delay: Number(delay) || 0,
-        forceError: Boolean(forceError)
+        forceError: Boolean(forceError),
+        errorCode: parsedErrorCode
       },
       fields: validatedFields
     });
@@ -279,6 +290,14 @@ exports.updateEndpoint = async (req, res) => {
 
       if (config.forceError !== undefined) {
         updateData['config.forceError'] = Boolean(config.forceError);
+      }
+
+      if (config.errorCode !== undefined) {
+        const errorCode = Number(config.errorCode);
+        if (errorCode < MIN_ERROR_CODE || errorCode > MAX_ERROR_CODE) {
+          return res.status(400).json({ success: false, message: "errorCode must be between 400 and 599" });
+        }
+        updateData['config.errorCode'] = errorCode;
       }
     }
 
