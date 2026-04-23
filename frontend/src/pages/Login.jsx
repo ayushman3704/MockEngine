@@ -1,9 +1,13 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
+  const redirectTo = location.state?.from?.pathname || '/dashboard';
   
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
@@ -22,8 +26,9 @@ const Login = () => {
       const response = await axiosInstance.post('/auth/login', formData);
       
       if (response.data.success) {
-        // Cookie backend se automatically set ho jayegi
-        navigate('/dashboard');
+        // Cookie backend se automatically set ho jayegi, aur UI state yahan update hogi
+        login(response.data.data);
+        navigate(redirectTo, { replace: true });
       }
     } catch (err) {
       // Backend humein 401 status ke sath "Invalid email or password" bhejega
