@@ -26,7 +26,7 @@ const Dashboard = () => {
   const fetchProjects = async () => {
     try {
       setLoading(true);
-      const response = await axiosInstance.get('/projects');
+      const response = await axiosInstance.get('api/projects');
       setProjects(response.data.data || []);
     } catch (err) {
       setError('Failed to load projects. Please try again.');
@@ -45,7 +45,7 @@ const Dashboard = () => {
       setCreating(true);
       // Backend ko naya project banane ki request bhejna
       // Note: Backend automatically slug generate kar lega name se
-      const response = await axiosInstance.post('/projects', { name: newProjectName });
+      const response = await axiosInstance.post('api/projects', { name: newProjectName });
       
       // Naye project ko existing list mein add karna bina refresh kiye
       setProjects([...projects, response.data.project]);
@@ -71,7 +71,7 @@ const Dashboard = () => {
 
     try {
       // Backend api ko hit karna
-      await axiosInstance.delete(`/projects/${projectId}`);
+      await axiosInstance.delete(`api/projects/${projectId}`);
       
       // ✨ OPTIMISTIC UI: Purane array se is project ko filter out karke state update karna
       setProjects(projects.filter(project => project._id !== projectId));
