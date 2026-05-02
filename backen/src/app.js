@@ -9,7 +9,7 @@ const mockRoutes = require("./routes/mockRoutes");
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:5173', // Aapke Vite React app ka exact URL
+  origin: 'https://mock-engine.vercel.app', // Aapke Vite React app ka exact URL
   credentials: true, // YEH SABSE ZAROORI HAI COOKIES KE LIYE!
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization']
