@@ -52,7 +52,7 @@ exports.registerUser = async (req, res) => {
     // 6️⃣ Send token in HTTP-only cookie (Recommended)
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
@@ -128,7 +128,7 @@ exports.loginUser = async (req, res) => {
     // 5️⃣ Send token in HTTP-only cookie (recommended)
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
