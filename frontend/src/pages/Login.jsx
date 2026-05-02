@@ -23,7 +23,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axiosInstance.post('/auth/login', formData);
+      const response = await axiosInstance.post('api/auth/login', formData);
       
       if (response.data.success) {
         // Cookie backend se automatically set ho jayegi, aur UI state yahan update hogi
