@@ -25,7 +25,7 @@ const Register = () => {
 
     try {
       // Backend ko request bhejna
-      const response = await axiosInstance.post('/auth/register', formData);
+      const response = await axiosInstance.post('api/auth/register', formData);
       
       if (response.data.success) {
         // 3️⃣ MAGIC STEP: Global state ko update karo ki user login ho chuka hai
