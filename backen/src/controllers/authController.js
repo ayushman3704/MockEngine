@@ -162,7 +162,7 @@ exports.logoutUser = async (req, res) => {
     // Clear the cookie
     res.cookie("token", "", {
       httpOnly: true,
-      secure: true",
+      secure: true,
       sameSite: "none",
       expires: new Date(0) // Expire immediately
     });
