@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-// import { Plus, Trash2, Save, ArrowLeft, Copy, CheckCircle2, ServerCrash } from 'lucide-react';
 import { Plus, Trash2, Save, ArrowLeft, Copy, CheckCircle2, ServerCrash, Pencil, X } from 'lucide-react';
 import axiosInstance from '../api/axiosInstance';
 import { useAuth } from '../context/AuthContext';
@@ -67,41 +66,6 @@ const ApiBuilder = () => {
     updatedFields[index][key] = value;
     setFields(updatedFields);
   };
-
-  // // 4️⃣ Submit Handler
-  // const handleGenerateAPI = async (e) => {
-  //   e.preventDefault();
-    
-  //   // Basic validation
-  //   if (!path.trim()) return alert("Path is required");
-  //   const validFields = fields.filter(f => f.fieldName.trim() !== '');
-  //   if (validFields.length === 0) return alert("Add at least one valid field");
-
-  //   try {
-  //     setIsSaving(true);
-  //     const payload = {
-  //       path,
-  //       method,
-  //       itemCount: Number(itemCount),
-  //       delay: Number(delay),
-  //       forceError,
-  //       errorCode: Number(errorCode),
-  //       fields: validFields
-  //     };
-
-  //     await axiosInstance.post(`/projects/${projectId}/endpoints`, payload);
-      
-  //     // Reset form & refresh list
-  //     setPath('');
-  //     setFields([{ fieldName: 'id', dataType: 'uuid' }]);
-  //     fetchEndpoints(); 
-      
-  //   } catch (error) {
-  //     alert(error.response?.data?.message || 'Failed to save endpoint');
-  //   } finally {
-  //     setIsSaving(false);
-  //   }
-  // };
 
   // 🚀 Unified Submit Handler (Create & Update)
   const handleGenerateAPI = async (e) => {
@@ -243,7 +207,7 @@ const ApiBuilder = () => {
 
                 {/* <div key={ep._id} className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow relative"> */}
                 
-                {/* 🔵 NAYA EDIT BUTTON */}
+                {/* EDIT BUTTON */}
                 <button 
                   onClick={() => handleEditClick(ep)}
                   className="absolute top-4 right-12 text-gray-400 hover:text-blue-500 transition-colors bg-white rounded-full p-1 hover:bg-blue-50 cursor-pointer"
@@ -252,7 +216,7 @@ const ApiBuilder = () => {
                   <Pencil className="h-4 w-4" />
                 </button>
 
-                {/* 🔴 PURANA DELETE BUTTON */}
+                {/* DELETE BUTTON */}
                 <button 
                   onClick={() => handleDeleteEndpoint(ep._id)}
                   className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-1 hover:bg-red-50 cursor-pointer"
@@ -260,17 +224,6 @@ const ApiBuilder = () => {
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
-                {/* // ... baaki card ka content ... */}
-                
-                {/* 🔴 YAHAN PASTE KARIYE APNA DELETE BUTTON */}
-                {/* <button 
-                  onClick={() => handleDeleteEndpoint(ep._id)}
-                  className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-1 hover:bg-red-50 cursor-pointer"
-                  title="Delete Endpoint"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button> */}
-
                 <div className="flex justify-between items-start mb-2 pr-15">
                   <span className={`px-2 py-1 text-xs font-bold rounded ${ep.method === 'GET' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'}`}>
                     {ep.method}
@@ -436,21 +389,6 @@ const ApiBuilder = () => {
                 )}
               </button>
             </div>
-
-            {/* <div className="flex justify-end">
-              <button
-                type="submit"
-                disabled={isSaving}
-                className="inline-flex items-center px-6 py-3 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-70 cursor-pointer"
-              >
-                {isSaving ? 'Saving Blueprint...' : (
-                  <>
-                    <Save className="h-5 w-5 mr-2" />
-                    Generate Endpoint API
-                  </>
-                )}
-              </button>
-            </div> */}
           </form>
         </div>
 

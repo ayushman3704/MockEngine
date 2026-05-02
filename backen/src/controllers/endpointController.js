@@ -309,7 +309,7 @@ exports.updateEndpoint = async (req, res) => {
       },
       { $set: updateData }, // Explicity using $set is a good practice
       {
-        new: true,
+        returnDocument: 'after', 
         runValidators: true
       }
     );
