@@ -43,7 +43,7 @@ const ApiBuilder = () => {
   const fetchEndpoints = async () => {
     try {
       // Backend api to get all endpoints for this project
-      const response = await axiosInstance.get(`/projects/${projectId}/endpoints`);
+      const response = await axiosInstance.get(`api/projects/${projectId}/endpoints`);
       setEndpoints(response.data.data || []);
     } catch (error) {
       console.error('Error fetching endpoints:', error);
@@ -91,7 +91,7 @@ const ApiBuilder = () => {
 
       if (editingEndpointId) {
         // 🔄 UPDATE LOGIC (PUT Request)
-        const response = await axiosInstance.put(`/projects/${editingEndpointId}`, payload);
+        const response = await axiosInstance.put(`api/projects/${editingEndpointId}`, payload);
         
         // Optimistic UI Update: Array mein purane endpoint ko naye se replace karo
         setEndpoints(endpoints.map(ep => 
@@ -110,7 +110,7 @@ const ApiBuilder = () => {
           errorCode: payload.config.errorCode
         };
         
-        await axiosInstance.post(`/projects/${projectId}/endpoints`, createPayload);
+        await axiosInstance.post(`api/projects/${projectId}/endpoints`, createPayload);
         setPath('');
         setFields([{ fieldName: 'id', dataType: 'uuid' }]);
         fetchEndpoints(); 
@@ -137,7 +137,7 @@ const ApiBuilder = () => {
     if (!window.confirm("Are you sure you want to delete this endpoint?")) return;
 
     try {
-      await axiosInstance.delete(`/projects/${endpointId}`);
+      await axiosInstance.delete(`api/projects/${endpointId}`);
       setEndpoints(endpoints.filter(ep => ep._id !== endpointId));
     } catch (error) {
       alert(error.response?.data?.message || 'Failed to delete endpoint');
