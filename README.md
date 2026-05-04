@@ -1,5 +1,3 @@
-
-```markdown
 # MockEngine 🚀
 **A Dynamic REST API Mocking Platform for Frontend Developers**
 
