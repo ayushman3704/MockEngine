@@ -1,8 +1,8 @@
-import axios  from "axios";
+import axios from "axios";
+import { BACKEND_BASE_URL } from "../config/api";
 
 const axiosInstance = axios.create({
-    baseURL: 'https://mockengine-1.onrender.com',
-
+    baseURL: BACKEND_BASE_URL,
     withCredentials: true
 });
 

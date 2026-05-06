@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Plus, Trash2, Save, ArrowLeft, Copy, CheckCircle2, ServerCrash, Pencil, X } from 'lucide-react';
 import axiosInstance from '../api/axiosInstance';
+import { BACKEND_BASE_URL } from '../config/api';
 import { useAuth } from '../context/AuthContext';
 
 // Allowed data types jo backend se match karte hain
@@ -125,8 +126,8 @@ const ApiBuilder = () => {
 
   // Copy to Clipboard Utility
   const copyToClipboard = (endpointId, fullPath) => {
-    // Ye mock URL backend base url + project route ke hisaab se banega
-    const mockUrl = `http://localhost:5000/api/mock/${user.id}/${projectId}${fullPath}`;
+    const normalizedPath = fullPath?.trim() || '/';
+    const mockUrl = `${BACKEND_BASE_URL}/api/mock/${user.id}/${projectId}${normalizedPath}`;
     navigator.clipboard.writeText(mockUrl);
     setCopiedId(endpointId);
     setTimeout(() => setCopiedId(null), 2000);
