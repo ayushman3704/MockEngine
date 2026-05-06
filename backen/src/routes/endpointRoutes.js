@@ -6,9 +6,8 @@ const router = express.Router();
 
 router.post("/:projectId/endpoints", authMiddleware.protect, endpointController.createEndpoint);
 router.get("/:projectId/endpoints", authMiddleware.protect, endpointController.getProjectEndpoints);
+router.get("/:projectId/endpoints/logs", authMiddleware.protect, endpointController.getEndpointAnalytics);
 router.put("/:endpointId", authMiddleware.protect, endpointController.updateEndpoint);
 router.delete("/:endpointId", authMiddleware.protect, endpointController.deleteEndpoint);
 
 module.exports = router;
-
-
