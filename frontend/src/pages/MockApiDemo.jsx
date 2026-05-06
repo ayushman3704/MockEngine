@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import axios from 'axios';
+import { BACKEND_BASE_URL } from '../config/api';
 import {
   AlertCircle,
   CheckCircle2,
@@ -13,7 +14,7 @@ import {
   Server,
 } from 'lucide-react';
 
-const DEFAULT_MOCK_URL = 'http://localhost:5001/api/mock/your-user-id/your-project-id/users';
+const DEFAULT_MOCK_URL = `${BACKEND_BASE_URL}/api/mock/your-user-id/your-project-id/users`;
 
 const formatDuration = (milliseconds) => {
   if (milliseconds === null) return '--';
@@ -191,7 +192,7 @@ const MockApiDemo = () => {
           <div className="mt-5 rounded-md border border-zinc-200 bg-zinc-50 p-4">
             <p className="text-sm font-semibold text-zinc-900">Demo endpoint format</p>
             <code className="mt-3 block rounded-md bg-white p-3 text-xs leading-5 text-zinc-700">
-              http://localhost:5001/api/mock/:userId/:projectId/users
+              {`${BACKEND_BASE_URL}/api/mock/:userId/:projectId/users`}
             </code>
           </div>
         </aside>

@@ -7,10 +7,21 @@ const endpointRoutes = require("./routes/endpointRoutes");
 const mockRoutes = require("./routes/mockRoutes");
 
 const app = express();
+const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:5173")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 app.use(cors({
-  origin: 'https://mock-engine.vercel.app', // Aapke Vite React app ka exact URL
-  credentials: true, // YEH SABSE ZAROORI HAI COOKIES KE LIYE!
+  origin(origin, callback) {
+    // Allow same-origin/non-browser tools and explicitly configured frontend URLs.
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
